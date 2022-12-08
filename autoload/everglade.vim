@@ -1,34 +1,34 @@
 " =============================================================================
-" URL: https://github.com/sainnhe/everforest
-" Filename: autoload/everforest.vim
-" Author: sainnhe
-" Email: i@sainnhe.dev
+" URL: https://sr.ht/~theorytoe/everglade
+" Filename: autoload/glade.vim
+" Author: Theorytoe
+" Email: theory@theoryware.net
 " License: MIT License
 " =============================================================================
 
-function! everforest#get_configuration() "{{{
+function! everglade#get_configuration() "{{{
   return {
-        \ 'background': get(g:, 'everforest_background', 'medium'),
-        \ 'transparent_background': get(g:, 'everforest_transparent_background', 0),
-        \ 'disable_italic_comment': get(g:, 'everforest_disable_italic_comment', 0),
-        \ 'enable_italic': get(g:, 'everforest_enable_italic', 0),
-        \ 'cursor': get(g:, 'everforest_cursor', 'auto'),
-        \ 'menu_selection_background': get(g:, 'everforest_menu_selection_background', 'white'),
-        \ 'sign_column_background': get(g:, 'everforest_sign_column_background', 'none'),
-        \ 'spell_foreground': get(g:, 'everforest_spell_foreground', 'none'),
-        \ 'ui_contrast': get(g:, 'everforest_ui_contrast', 'low'),
-        \ 'show_eob': get(g:, 'everforest_show_eob', 1),
-        \ 'current_word': get(g:, 'everforest_current_word', get(g:, 'everforest_transparent_background', 0) == 0 ? 'grey background' : 'bold'),
-        \ 'lightline_disable_bold': get(g:, 'everforest_lightline_disable_bold', 0),
-        \ 'diagnostic_text_highlight': get(g:, 'everforest_diagnostic_text_highlight', 0),
-        \ 'diagnostic_line_highlight': get(g:, 'everforest_diagnostic_line_highlight', 0),
-        \ 'diagnostic_virtual_text': get(g:, 'everforest_diagnostic_virtual_text', 'grey'),
-        \ 'disable_terminal_colors': get(g:, 'everforest_disable_terminal_colors', 0),
-        \ 'better_performance': get(g:, 'everforest_better_performance', 0),
-        \ 'colors_override': get(g:, 'everforest_colors_override', {}),
+        \ 'background': get(g:, 'everglade_background', 'medium'),
+        \ 'transparent_background': get(g:, 'everglade_transparent_background', 0),
+        \ 'disable_italic_comment': get(g:, 'everglade_disable_italic_comment', 0),
+        \ 'enable_italic': get(g:, 'everglade_enable_italic', 0),
+        \ 'cursor': get(g:, 'everglade_cursor', 'auto'),
+        \ 'menu_selection_background': get(g:, 'everglade_menu_selection_background', 'white'),
+        \ 'sign_column_background': get(g:, 'everglade_sign_column_background', 'none'),
+        \ 'spell_foreground': get(g:, 'everglade_spell_foreground', 'none'),
+        \ 'ui_contrast': get(g:, 'everglade_ui_contrast', 'low'),
+        \ 'show_eob': get(g:, 'everglade_show_eob', 1),
+        \ 'current_word': get(g:, 'everglade_current_word', get(g:, 'everglade_transparent_background', 0) == 0 ? 'grey background' : 'bold'),
+        \ 'lightline_disable_bold': get(g:, 'everglade_lightline_disable_bold', 0),
+        \ 'diagnostic_text_highlight': get(g:, 'everglade_diagnostic_text_highlight', 0),
+        \ 'diagnostic_line_highlight': get(g:, 'everglade_diagnostic_line_highlight', 0),
+        \ 'diagnostic_virtual_text': get(g:, 'everglade_diagnostic_virtual_text', 'grey'),
+        \ 'disable_terminal_colors': get(g:, 'everglade_disable_terminal_colors', 0),
+        \ 'better_performance': get(g:, 'everglade_better_performance', 0),
+        \ 'colors_override': get(g:, 'everglade_colors_override', {}),
         \ }
 endfunction "}}}
-function! everforest#get_palette(background, colors_override) "{{{
+function! everglade#get_palette(background, colors_override) "{{{
   if a:background ==# 'hard' "{{{
     if &background ==# 'dark'
       let palette1 = {
@@ -165,7 +165,7 @@ function! everforest#get_palette(background, colors_override) "{{{
   endif "}}}
   return extend(extend(palette1, palette2), a:colors_override)
 endfunction "}}}
-function! everforest#highlight(group, fg, bg, ...) "{{{
+function! everglade#highlight(group, fg, bg, ...) "{{{
   execute 'highlight' a:group
         \ 'guifg=' . a:fg[0]
         \ 'guibg=' . a:bg[0]
@@ -181,54 +181,54 @@ function! everforest#highlight(group, fg, bg, ...) "{{{
           \ a:2[0] :
           \ 'NONE')
 endfunction "}}}
-function! everforest#syn_gen(path, last_modified, msg) "{{{
+function! everglade#syn_gen(path, last_modified, msg) "{{{
   " Generate the `after/syntax` directory.
-  let full_content = join(readfile(a:path), "\n") " Get the content of `colors/everforest.vim`
+  let full_content = join(readfile(a:path), "\n") " Get the content of `colors/everglade.vim`
   let syn_conent = []
-  let rootpath = everforest#syn_rootpath(a:path) " Get the path to place the `after/syntax` directory.
+  let rootpath = everglade#syn_rootpath(a:path) " Get the path to place the `after/syntax` directory.
   call substitute(full_content, '" syn_begin.\{-}syn_end', '\=add(syn_conent, submatch(0))', 'g') " Search for 'syn_begin.\{-}syn_end' (non-greedy) and put all the search results into a list.
   for content in syn_conent
     let syn_list = []
     call substitute(matchstr(matchstr(content, 'syn_begin:.\{-}{{{'), ':.\{-}{{{'), '\(\w\|-\)\+', '\=add(syn_list, submatch(0))', 'g') " Get the file types. }}}}}}
     for syn in syn_list
-      call everforest#syn_write(rootpath, syn, content) " Write the content.
+      call everglade#syn_write(rootpath, syn, content) " Write the content.
     endfor
   endfor
-  call everforest#syn_write(rootpath, 'text', "let g:everforest_last_modified = '" . a:last_modified . "'") " Write the last modified time to `after/syntax/text/everforest.vim`
+  call everglade#syn_write(rootpath, 'text', "let g:everglade_last_modified = '" . a:last_modified . "'") " Write the last modified time to `after/syntax/text/everglade.vim`
   let syntax_relative_path = has('win32') ? '\after\syntax' : '/after/syntax'
   if a:msg ==# 'update'
-    echohl WarningMsg | echom '[everforest] Updated ' . rootpath . syntax_relative_path | echohl None
-    call everforest#ftplugin_detect(a:path)
+    echohl WarningMsg | echom '[everglade] Updated ' . rootpath . syntax_relative_path | echohl None
+    call everglade#ftplugin_detect(a:path)
   else
-    echohl WarningMsg | echom '[everforest] Generated ' . rootpath . syntax_relative_path | echohl None
+    echohl WarningMsg | echom '[everglade] Generated ' . rootpath . syntax_relative_path | echohl None
     execute 'set runtimepath+=' . fnamemodify(rootpath, ':p') . 'after'
   endif
 endfunction "}}}
-function! everforest#syn_write(rootpath, syn, content) "{{{
+function! everglade#syn_write(rootpath, syn, content) "{{{
   " Write the content.
-  let syn_path = a:rootpath . '/after/syntax/' . a:syn . '/everforest.vim' " The path of a syntax file.
+  let syn_path = a:rootpath . '/after/syntax/' . a:syn . '/everglade.vim' " The path of a syntax file.
   " create a new file if it doesn't exist
   if !filereadable(syn_path)
     call mkdir(a:rootpath . '/after/syntax/' . a:syn, 'p')
     call writefile([
-          \ "if !exists('g:colors_name') || g:colors_name !=# 'everforest'",
+          \ "if !exists('g:colors_name') || g:colors_name !=# 'everglade'",
           \ '    finish',
           \ 'endif'
-          \ ], syn_path, 'a') " Abort if the current color scheme is not everforest.
+          \ ], syn_path, 'a') " Abort if the current color scheme is not everglade.
     call writefile([
-          \ "if index(g:everforest_loaded_file_types, '" . a:syn . "') ==# -1",
-          \ "    call add(g:everforest_loaded_file_types, '" . a:syn . "')",
+          \ "if index(g:everglade_loaded_file_types, '" . a:syn . "') ==# -1",
+          \ "    call add(g:everglade_loaded_file_types, '" . a:syn . "')",
           \ 'else',
           \ '    finish',
           \ 'endif'
           \ ], syn_path, 'a') " Abort if this file type has already been loaded.
   endif
-  " If there is something like `call everforest#highlight()`, then add
+  " If there is something like `call everglade#highlight()`, then add
   " code to initialize the palette and configuration.
-  if matchstr(a:content, 'everforest#highlight') !=# ''
+  if matchstr(a:content, 'everglade#highlight') !=# ''
     call writefile([
-          \ 'let s:configuration = everforest#get_configuration()',
-          \ 'let s:palette = everforest#get_palette(s:configuration.background, s:configuration.colors_override)'
+          \ 'let s:configuration = everglade#get_configuration()',
+          \ 'let s:palette = everglade#get_palette(s:configuration.background, s:configuration.colors_override)'
           \ ], syn_path, 'a')
   endif
   " Append the content.
@@ -236,7 +236,7 @@ function! everforest#syn_write(rootpath, syn, content) "{{{
   " Add modeline.
   call writefile(['" vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker fmr={{{,}}}:'], syn_path, 'a')
 endfunction "}}}
-function! everforest#syn_rootpath(path) "{{{
+function! everglade#syn_rootpath(path) "{{{
   " Get the directory where `after/syntax` is generated.
   if (matchstr(a:path, '^/usr/share') ==# '') " Return the plugin directory. The `after/syntax` directory should never be generated in `/usr/share`, even if you are a root user.
     return fnamemodify(a:path, ':p:h:h')
@@ -248,17 +248,17 @@ function! everforest#syn_rootpath(path) "{{{
     endif
   endif
 endfunction "}}}
-function! everforest#syn_newest(path, last_modified) "{{{
-  " Determine whether the current syntax files are up to date by comparing the last modified time in `colors/everforest.vim` and `after/syntax/text/everforest.vim`.
-  let rootpath = everforest#syn_rootpath(a:path)
-  execute 'source ' . rootpath . '/after/syntax/text/everforest.vim'
-  return a:last_modified ==# g:everforest_last_modified ? 1 : 0
+function! everglade#syn_newest(path, last_modified) "{{{
+  " Determine whether the current syntax files are up to date by comparing the last modified time in `colors/everglade.vim` and `after/syntax/text/everglade.vim`.
+  let rootpath = everglade#syn_rootpath(a:path)
+  execute 'source ' . rootpath . '/after/syntax/text/everglade.vim'
+  return a:last_modified ==# g:everglade_last_modified ? 1 : 0
 endfunction "}}}
-function! everforest#syn_clean(path, msg) "{{{
+function! everglade#syn_clean(path, msg) "{{{
   " Clean the `after/syntax` directory.
-  let rootpath = everforest#syn_rootpath(a:path)
-  " Remove `after/syntax/**/everforest.vim`.
-  let file_list = split(globpath(rootpath, 'after/syntax/**/everforest.vim'), "\n")
+  let rootpath = everglade#syn_rootpath(a:path)
+  " Remove `after/syntax/**/everglade.vim`.
+  let file_list = split(globpath(rootpath, 'after/syntax/**/everglade.vim'), "\n")
   for file in file_list
     call delete(file)
   endfor
@@ -277,20 +277,20 @@ function! everforest#syn_clean(path, msg) "{{{
   endif
   if a:msg
     let syntax_relative_path = has('win32') ? '\after\syntax' : '/after/syntax'
-    echohl WarningMsg | echom '[everforest] Cleaned ' . rootpath . syntax_relative_path | echohl None
+    echohl WarningMsg | echom '[everglade] Cleaned ' . rootpath . syntax_relative_path | echohl None
   endif
 endfunction "}}}
-function! everforest#syn_exists(path) "{{{
-  return filereadable(everforest#syn_rootpath(a:path) . '/after/syntax/text/everforest.vim')
+function! everglade#syn_exists(path) "{{{
+  return filereadable(everglade#syn_rootpath(a:path) . '/after/syntax/text/everglade.vim')
 endfunction "}}}
-function! everforest#ftplugin_detect(path) "{{{
+function! everglade#ftplugin_detect(path) "{{{
   " Check if /after/ftplugin exists.
   " This directory is generated in earlier versions, users may need to manually clean it.
-  let rootpath = everforest#syn_rootpath(a:path)
-  if filereadable(everforest#syn_rootpath(a:path) . '/after/ftplugin/text/everforest.vim')
+  let rootpath = everglade#syn_rootpath(a:path)
+  if filereadable(everglade#syn_rootpath(a:path) . '/after/ftplugin/text/everglade.vim')
     let ftplugin_relative_path = has('win32') ? '\after\ftplugin' : '/after/ftplugin'
-    echohl WarningMsg | echom '[everforest] Detected ' . rootpath . ftplugin_relative_path | echohl None
-    echohl WarningMsg | echom '[everforest] This directory is no longer used, you may need to manually delete it.' | echohl None
+    echohl WarningMsg | echom '[everglade] Detected ' . rootpath . ftplugin_relative_path | echohl None
+    echohl WarningMsg | echom '[everglade] This directory is no longer used, you may need to manually delete it.' | echohl None
   endif
 endfunction "}}}
 

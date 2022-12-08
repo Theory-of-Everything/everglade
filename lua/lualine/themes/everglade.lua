@@ -1,13 +1,12 @@
 -- =============================================================================
--- URL: https://github.com/sainnhe/everforest
--- Filename: lua/lualine/themes/everforest.lua
--- Author: sainnhe
--- Email: i@sainnhe.dev
--- License: MIT License
+-- URL: https://sr.ht/~therytoe/everglade
+-- Filename: lua/lualine/themes/everglade.lua
+-- Author: theorytoe <theory@theoryware.net>
+-- License: MIT
 -- =============================================================================
 
-local configuration = vim.fn['everforest#get_configuration']()
-local palette = vim.fn['everforest#get_palette'](configuration.background, configuration.colors_override)
+local configuration = vim.fn['everglade#get_configuration']()
+local palette = vim.fn['everglade#get_palette'](configuration.background, configuration.colors_override)
 
 if configuration.transparent_background == 2 then
   palette.bg1 = palette.none
