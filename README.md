@@ -1,4 +1,4 @@
-## everglade.vim
+# everglade.vim
 
 ```
                              __          __   
@@ -48,9 +48,12 @@ See [`:help everglade.txt`](./doc/everglade.txt)
 
 ## Contributing
 
-We appreciate both patches and pull requests. However, respones to
-git-send-email(1) patches will be quicker than pull requests. The transition
-to different maintainers my leave some to be desired, please bear in mind.
+We appreciate both patches and pull requests, however patches are preferred and
+can be sent to
+[~therytoe/public-inbox@lists.sr.ht](https://lists.sr.ht/~theorytoe/public-inbox).
+via git-send-email(1). Patches will often be reviewed quicker than pull
+requests. The transition to different maintainers my leave some to be desired,
+please keep that in mind.
 
 For legacy everforest info, see this
 [post](https://www.sainnhe.dev/post/contributing-guide/).
